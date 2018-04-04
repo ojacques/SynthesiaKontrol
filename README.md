@@ -42,8 +42,9 @@ In Keylight section of that output, select "Finger-based channel" (the last mode
 - [ ] Support Komplete Kontrol MK1 keyboards
 
 # Acknowledgements
-Thanks to [AnykeyNL](https://github.com/AnykeyNL) to figure out an initial scheme for Komplete 
-Kontrol MK1 USB protocol as well as the structure of an app, and to 
-[Jason Bret](https://github.com/jasonbrent) to have figured out the MK2 version, and the `0x81` endpoint 
-which I use.
+Thanks to
+- [Nicholas Piegdon](https://github.com/npiegdon) for his dedication to Synthesia, and the great help he provides for his user community
+- [AnykeyNL](https://github.com/AnykeyNL) to figure out an initial scheme for Komplete 
+Kontrol MK1 USB protocol as well as the structure of an app
+- [Jason Bret](https://github.com/jasonbrent) to have figured out the MK2 version, and the `0x81` endpoint which I use.
 
