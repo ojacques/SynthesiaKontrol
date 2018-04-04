@@ -1,6 +1,8 @@
 # Synthesia Kontrol Guide
 Use Native Instruments Komplete Kontrol mk2 light guide in Synthesia to learn keyboard.
 
+[![Synthesia Kontrol](https://img.youtube.com/vi/6iYSOOZrF2U/0.jpg)](https://www.youtube.com/watch?v=6iYSOOZrF2U)
+
 This is a project for my son, which you may find useful.
 
 This program listens to light events from Synthesia sent to a virtual `LoopBe1` midi port
