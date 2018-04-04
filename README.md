@@ -3,19 +3,47 @@ Use Native Instruments Komplete Kontrol mk2 light guide in Synthesia to learn ke
 
 This is a project for my son, which you may find useful.
 
+This program listens to light events from Synthesia sent to a virtual `LoopBe1` midi port
+and lights the keys on Komplete Kontrol keyboard accordingly.
+
+# Setup
+
+## SynthesiaKontrol
+
+- Install Python's module:
+
+```
+pip install hidapi
+pip install mido
+```
+
+- Install [LoopBe1](http://www.nerds.de/en/download.html) virtual midi port driver.
+- Run the program: 
+
+```
+python SynthesiaKontrol.py
+```
+
+## Synthesia
+
+In Synthesia, got to settings/Music Devices and select "nerds.de LoopBe1" from "Music Output". 
+In Keylight section of that output, select "Finger-based channel" (the last mode after 'channel 16').
+
 # Status
 
-This is work in progress. At this time, I'm figuring out the protocol and a way forward.
-
-# To do
-
 - [X] Proof of concept: light keys from Komplete Kontrol MK2 S61
-- [ ] Figure out all the possible colors
-- [ ] Python app to listen to midi events from Synthesia and light keys
-- [ ] Leverage finger based channel light mode from Synthesia, introduced in r4376 (and withdrawn?) to show left and right hands on KK
+- [X] Figure out all the possible colors - see `color_scan.py`
+- [X] Python app to listen to midi events from Synthesia and light keys - see `SynthesiaKontrol.py`
+- [X] Leverage finger based channel light mode from Synthesia, introduced in r4376 to show left and right hands on KK
+- [ ] Address issue where notes are turned off too quickly (Forum post [here](https://www.synthesiagame.com/forum/viewtopic.php?p=45032#p45032))
+- [ ] Customizable note colors
+- [ ] Simpler / better instructions
+- [ ] Support all Komplete Kontrol MK2 keyboard sizes (currently only S61)
+- [ ] Support Komplete Kontrol MK1 keyboards
 
 # Acknowledgements
 Thanks to [AnykeyNL](https://github.com/AnykeyNL) to figure out an initial scheme for Komplete 
-Kontrol MK1 USB protocol, and to [Jason Bret](https://github.com/jasonbrent) to have figured out 
-the MK2 version, and the `0x81` endpoint which I use in this app.
+Kontrol MK1 USB protocol as well as the structure of an app, and to 
+[Jason Bret](https://github.com/jasonbrent) to have figured out the MK2 version, and the `0x81` endpoint 
+which I use.
 
