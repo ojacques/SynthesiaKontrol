@@ -31,12 +31,15 @@ def accept_notes(port):
         if message.type in ('note_on', 'note_off'):
             yield message
 
-def LightNote(note, status, channel):
+def LightNote(note, status, channel, velocity):
     """Light a note ON or OFF"""
 
     bufferC[0] = 0x81    # For Komplete Kontrol MK2
     offset = -36         # To change when keyboard is not 61 keys
-    key = (note + offset) 
+    key = (note + offset)
+
+    if key <= 0 or key > 61:
+        return  
 
     # Determine color
     left        = 0x2d   # Blue
@@ -70,9 +73,9 @@ def LightNote(note, status, channel):
         # right hand, unknown finger
         color = right
 
-    if status == 'note_on':
+    if status == 'note_on' and velocity != 0:
         bufferC[key] = color     # Set color
-    if status == 'note_off':
+    if status == 'note_off' or velocity == 0:
         bufferC[key] = 0x00      # Switch key light off
     device.write([0x81] + bufferC)
 
@@ -90,4 +93,4 @@ if __name__ == '__main__':
         with mido.open_input(portName) as midiPort:
             for message in accept_notes(midiPort):
                 print('Received {}'.format(message))
-                LightNote(message.note, message.type, message.channel)
+                LightNote(message.note, message.type, message.channel, message.velocity)
