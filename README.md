@@ -42,6 +42,7 @@ In Keylight section of that output, select "Finger-based channel" (the last mode
 - [ ] Simpler / better instructions
 - [ ] Support all Komplete Kontrol MK2 keyboard sizes (currently only S61)
 - [ ] Support Komplete Kontrol MK1 keyboards
+- [ ] Use different colors per channel
 
 # Acknowledgements
 Thanks to
