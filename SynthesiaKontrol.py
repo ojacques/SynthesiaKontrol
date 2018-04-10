@@ -38,7 +38,7 @@ def LightNote(note, status, channel, velocity):
     offset = -36         # To change when keyboard is not 61 keys
     key = (note + offset)
 
-    if key <= 0 or key > 61:
+    if key < 0 or key >= 61:
         return  
 
     # Determine color
