@@ -22,7 +22,7 @@ and lights the keys on Komplete Kontrol keyboard accordingly.
 
 ### Windows
 
-- Download the Windows package locally on your PC
+- Download the Windows package locally on your PC from [releases](https://github.com/ojacques/SynthesiaKontrol/releases/)
 - Extract in a new folder
 - Run SynthesiaKontrol
 
@@ -48,6 +48,14 @@ pip install mido
 ```
 python SynthesiaKontrol.py
 ```
+
+- Build executable:
+
+```
+python setup.py build
+```
+
+Result is in build directory.
 
 # Status
 
