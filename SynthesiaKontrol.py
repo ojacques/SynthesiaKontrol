@@ -18,18 +18,30 @@ def init():
     # 0x17cc: Native Instruments. 0x1620: KK S61 MK2
     device.open(0x17cc, 0x1620)
     device.write([0xa0])
-
-    # Turn off lights for all 61 notes
+    
     bufferC = [0x00] * 61
-    device.write([0x81] + bufferC)
+    notes_off()
 
     return True
+
+def notes_off():
+    """Turn off lights for all 61 notes"""
+    bufferC = [0x00] * 61
+    device.write([0x81] + bufferC)
 
 def accept_notes(port):
     """Only let note_on and note_off messages through."""
     for message in port:
         if message.type in ('note_on', 'note_off'):
             yield message
+        if message.type == 'control_change' and message.channel == 0 and message.control == 16:
+            if (message.value & 4):
+                print ("User is playing")
+            if (message.value & 1):
+                print ("Playing Right Hand")
+            if (message.value & 2):
+                print ("Playing Left Hand")
+            notes_off()
 
 def LightNote(note, status, channel, velocity):
     """Light a note ON or OFF"""
@@ -75,7 +87,8 @@ def LightNote(note, status, channel, velocity):
 
     if status == 'note_on' and velocity != 0:
         bufferC[key] = color     # Set color
-    if status == 'note_off' or velocity == 0:
+    if (status == 'note_off' or velocity == 0):
+        # Note off or velocity 0 (equals note off)
         bufferC[key] = 0x00      # Switch key light off
     device.write([0x81] + bufferC)
 

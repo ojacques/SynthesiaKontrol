@@ -65,9 +65,10 @@ Result is in build directory.
 - [X] Leverage finger based channel light mode from Synthesia, introduced in r4376 to show left and right hands on KK
 - [X] Address issue where notes are turned off too quickly (Forum post [here](https://www.synthesiagame.com/forum/viewtopic.php?p=45032#p45032))
 - [X] Package as simple executable
-- [ ] All notes off
+- [X] All notes off
 - [ ] Customizable note colors
-- [ ] Simpler / better instructions
+- [ ] Rainbow mode: when playing a note, make a rainbow on that note
+- [X] Simpler / better instructions
 - [ ] Support all Komplete Kontrol MK2 keyboard sizes (currently only S61)
 - [ ] Support Komplete Kontrol MK1 keyboards
 - [ ] Use different colors per channel
