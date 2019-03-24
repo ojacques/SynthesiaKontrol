@@ -1,6 +1,6 @@
 # The MIT License
 # 
-# Copyright (c) 2018 Olivier Jacques
+# Copyright (c) 2018, 2019 Olivier Jacques
 # 
 # Synthesia Kontrol: an app to light the keys of Native Instruments
 #                    Komplete Kontrol MK2 keyboard, driven by Synthesia
@@ -14,6 +14,7 @@ def init():
     global bufferC  # Buffer with the full key/lights mapping
     global device
 
+    print("Opening Keyboard device...")
     device=hid.device()
     # 0x17cc: Native Instruments. 0x1620: KK S61 MK2
     device.open(0x17cc, 0x1620)
@@ -26,6 +27,9 @@ def init():
 
 def notes_off():
     """Turn off lights for all 61 notes"""
+
+    print("Turn off lights for 61 notes")
+
     bufferC = [0x00] * 61
     device.write([0x81] + bufferC)
 
@@ -96,12 +100,18 @@ if __name__ == '__main__':
     """Main: connect to keyboard, open midi input port, listen to midi"""
     print ("Connecting to Komplete Kontrol Keyboard")
     connected = init()
+    portName = ""
     if connected:
         print ("Opening LoopBe input port")
         ports = mido.get_input_names()
         for port in ports:
+            print("  Found MIDI port " + port + "...")
             if "LoopBe" in port:
                 portName = port
+        if portName == "":
+            print("Error: can't find 'LoopBe' midi port. Please install LoopBe1 from http://www.nerds.de/en/download.html.")
+            quit(1)
+
         print ("Listening to Midi")
         with mido.open_input(portName) as midiPort:
             for message in accept_notes(midiPort):
