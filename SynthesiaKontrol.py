@@ -7,6 +7,7 @@
 
 import hid
 import mido
+import time
 
 NATIVE_INSTRUMENTS = 0x17cc
 INSTR_ADDR = 0x1620
@@ -56,6 +57,41 @@ def accept_notes(port):
                 print ("Playing Left Hand")
             notes_off()
 
+def CoolDemoSweep(loopcount):
+    speed = 0.01
+    for loop in range(0,loopcount):
+        # Forward
+        for x in range(0, NB_KEYS-3):
+            if (MODE == "MK2"):
+                bufferC = [0x00] * NB_KEYS
+                bufferC[0] = 0x81
+                bufferC[x] = (0x04 + x % 4)
+                bufferC[x+1] = (0x08 + x % 4)
+                bufferC[x+2] = (0x0c + x % 4)
+                bufferC[x+3] = (0x10 + x % 4)
+            else:
+                bufferC = [0x00] * 3 * NB_KEYS
+                bufferC[0] = 0x82
+                bufferC[x*3-2] = 0xFF
+            device.write(bufferC)
+            time.sleep(speed)
+        # Backward
+        for x in range(NB_KEYS - 1, 0, -1):
+            if (MODE == "MK2"):
+                bufferC = [0x00] * NB_KEYS
+                bufferC[0] = 0x81
+                bufferC[x] = (0x2c + x % 4)
+                bufferC[x-1] = (0x2d + x % 4)
+                bufferC[x-2] = (0x2e + x % 4)
+                bufferC[x-3] = (0x2f + x % 4)
+            else:
+                bufferC = [0x00] * 3 * NB_KEYS
+                bufferC[0] = 0x82
+                bufferC[x*3-2] = 0xFF
+            device.write(bufferC)
+            time.sleep(speed)
+    notes_off()
+   
 def LightNote(note, status, channel, velocity):
     """Light a note ON or OFF"""
 
@@ -164,6 +200,8 @@ if __name__ == '__main__':
     connected = init()
     portName = ""
     if connected:
+        print("Connected to Komplete Kontrol!")
+        CoolDemoSweep(2)    # Happy dance
         print ("Opening LoopBe input port")
         ports = mido.get_input_names()
         for port in ports:
