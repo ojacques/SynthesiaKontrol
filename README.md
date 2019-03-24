@@ -15,7 +15,7 @@ and lights the keys on Komplete Kontrol keyboard accordingly.
 - Install [LoopBe1](http://www.nerds.de/en/download.html) virtual midi port driver.
 - In [Synthesia](https://synthesiagame.com):
   - Go to settings/Music Devices
-  - Select "nerds.de LoopBe1" from "Music Output"
+  - Select "LoopBe Internal MIDI" from "Music Output"
   - In Keylight section of that output, select "Finger-based channel" (the last mode after 'channel 16')
 
 ## SynthesiaKontrol
@@ -41,6 +41,7 @@ If you want to contribute to the project, you need to setup your Python environm
 ```
 pip install hidapi
 pip install mido
+pip install python-rtmidi
 ```
 
 - Run the program: 
