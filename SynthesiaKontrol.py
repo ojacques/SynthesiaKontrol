@@ -8,6 +8,11 @@
 import hid
 import mido
 
+NATIVE_INSTRUMENTS = 0x17cc
+INSTR_ADDR = 0x1620
+NB_KEYS = 61
+MODE = "MK2"
+
 def init():
     """Connect to the keyboard, switch all lights off"""
     global bufferC  # Buffer with the full key/lights mapping
@@ -15,22 +20,27 @@ def init():
 
     print("Opening Keyboard device...")
     device=hid.device()
-    # 0x17cc: Native Instruments. 0x1620: KK S61 MK2
-    device.open(0x17cc, 0x1620)
+    device.open(NATIVE_INSTRUMENTS, INSTR_ADDR)
     device.write([0xa0])
     
-    bufferC = [0x00] * 61
+    bufferC = [0x00] * 249
     notes_off()
 
     return True
 
 def notes_off():
-    """Turn off lights for all 61 notes"""
+    """Turn off lights for all notes"""
 
-    print("Turn off lights for 61 notes")
+    print("Turn off lights for all notes")
 
-    bufferC = [0x00] * 61
-    device.write([0x81] + bufferC)
+    bufferC = [0x00] * 249
+    if (MODE == "MK2"):
+        device.write([0x81] + bufferC)
+    elif (MODE == "MK1"):
+        device.write([0x82] + bufferC)
+    else:
+        print ("Error: unsupported mode - should be MK1 or MK2")
+        quit()
 
 def accept_notes(port):
     """Only let note_on and note_off messages through."""
@@ -49,18 +59,28 @@ def accept_notes(port):
 def LightNote(note, status, channel, velocity):
     """Light a note ON or OFF"""
 
-    bufferC[0] = 0x81    # For Komplete Kontrol MK2
-    offset = -36         # To change when keyboard is not 61 keys
+    #bufferC[0] = 0x81    # For Komplete Kontrol MK2
+    offset = OFFSET
     key = (note + offset)
 
-    if key < 0 or key >= 61:
+    if key < 0 or key >= NB_KEYS:
         return  
 
     # Determine color
-    left        = 0x2d   # Blue
-    left_thumb  = 0x2f   # Lighter Blue
-    right       = 0x1d   # Green
-    right_thumb = 0x1f   # Lighter Green
+    if (MODE == "MK2"):
+        left        = 0x2d   # Blue
+        left_thumb  = 0x2f   # Lighter Blue
+        right       = 0x1d   # Green
+        right_thumb = 0x1f   # Lighter Green
+    elif (MODE == "MK1"):
+        left        = [0x00] + [0x00] + [0xFF]   # Blue
+        left_thumb  = [0x00] + [0x00] + [0x80]   # Lighter Blue
+        right       = [0x00] + [0xFF] + [0x00]   # Green
+        right_thumb = [0x00] + [0x80] + [0x00]   # Lighter Green
+    else:
+        print ("Error: unsupported mode - should be MK1 or MK2")
+        quit()
+
     default = right
     color = default
 
@@ -89,14 +109,57 @@ def LightNote(note, status, channel, velocity):
         color = right
 
     if status == 'note_on' and velocity != 0:
-        bufferC[key] = color     # Set color
+        if (MODE == "MK2"):
+            bufferC[key] = color     # Set color
+        else:
+            bufferC[3*key:3*key+3] = color
     if (status == 'note_off' or velocity == 0):
         # Note off or velocity 0 (equals note off)
-        bufferC[key] = 0x00      # Switch key light off
-    device.write([0x81] + bufferC)
+        if (MODE == "MK2"):
+            bufferC[key] = 0x00      # Switch key light off
+        else:
+            bufferC[3*key:3*key+3] = [0x00] * 3
+
+    if (MODE == "MK2"):
+        device.write([0x81] + bufferC)
+    else:
+        device.write([0x82] + bufferC)
 
 if __name__ == '__main__':
     """Main: connect to keyboard, open midi input port, listen to midi"""
+    print ("Select your keyboard (*1,2,3,4):")
+    print ("  1-Komplete Kontrol S61 MK2")
+    print ("  2-Komplete Kontrol S88 MK2")
+    print ("  3-Komplete Kontrol S61 MK1")
+    print ("  4-Komplete Kontrol S88 MK1")
+    keyboard = input()
+    
+    # Customize here for new keyboards
+    # Pull requests welcome!
+    if keyboard == "1":
+        MODE = "MK2"
+        INSTR_ADDR = 0x1620 # KK S61 MK2
+        NB_KEYS = 61
+        OFFSET = -36
+    elif keyboard == "2":
+        MODE = "MK2"
+        INSTR_ADDR = 0x1630 # KK S88 MK2
+        NB_KEYS = 88
+        OFFSET = -21
+    elif keyboard == "3":
+        MODE = "MK1"
+        INSTR_ADDR = 0x1360 # KK S61 MK1
+        NB_KEYS = 61
+        OFFSET = -36
+    elif keyboard == "4":
+        MODE = "MK1"
+        INSTR_ADDR = 0x1410 # KK S88 MK1
+        NB_KEYS = 88
+        OFFSET = -21
+    else:
+        print ("Sorry, keyboard not supported yet!")
+        quit()
+    
     print ("Connecting to Komplete Kontrol Keyboard")
     connected = init()
     portName = ""

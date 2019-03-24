@@ -70,8 +70,8 @@ Result is in build directory.
 - [ ] Customizable note colors
 - [ ] Rainbow mode: when playing a note, make a rainbow on that note
 - [X] Simpler / better instructions
-- [ ] Support all Komplete Kontrol MK2 keyboard sizes (currently only S61)
-- [ ] Support Komplete Kontrol MK1 keyboards
+- [X] Support all Komplete Kontrol MK2 keyboard sizes (currently only S61)
+- [X] Support Komplete Kontrol MK1 keyboards
 - [ ] Use different colors per channel
 
 # Getting help
@@ -85,4 +85,6 @@ Thanks to
 - [AnykeyNL](https://github.com/AnykeyNL) to figure out an initial scheme for Komplete 
 Kontrol MK1 USB protocol as well as the structure of an app
 - [Jason Bret](https://github.com/jasonbrent) to have figured out the MK2 version, and the `0x81` endpoint which I use.
+- [a1vv](https://github.com/a1vv/KompleteKontrolLightGuide) for the fork, and figuring out the changes for MK1 - which allowed me to create a version with support of MK1 and MK2
+- [Nabume](https://www.synthesiagame.com/forum/memberlist.php?mode=viewprofile&u=115379) for the S88 MK2 info.
 
