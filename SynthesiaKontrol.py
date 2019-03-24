@@ -163,11 +163,14 @@ def LightNote(note, status, channel, velocity):
 
 if __name__ == '__main__':
     """Main: connect to keyboard, open midi input port, listen to midi"""
-    print ("Select your keyboard (*1,2,3,4):")
+    print ("Select your keyboard (1,2,3,...):")
     print ("  1-Komplete Kontrol S61 MK2")
     print ("  2-Komplete Kontrol S88 MK2")
-    print ("  3-Komplete Kontrol S61 MK1")
-    print ("  4-Komplete Kontrol S88 MK1")
+    print ("  3-Komplete Kontrol S49 MK2")
+    print ("  4-Komplete Kontrol S61 MK1")
+    print ("  5-Komplete Kontrol S88 MK1")
+    print ("  6-Komplete Kontrol S49 MK1")
+    print ("  7-Komplete Kontrol S25 MK1")
     keyboard = input()
     
     # Customize here for new keyboards
@@ -183,14 +186,29 @@ if __name__ == '__main__':
         NB_KEYS = 88
         OFFSET = -21
     elif keyboard == "3":
+        MODE = "MK2"
+        INSTR_ADDR = 0x1610 # KK S49 MK2
+        NB_KEYS = 49
+        OFFSET = -21
+    elif keyboard == "4":
         MODE = "MK1"
         INSTR_ADDR = 0x1360 # KK S61 MK1
         NB_KEYS = 61
         OFFSET = -36
-    elif keyboard == "4":
+    elif keyboard == "5":
         MODE = "MK1"
         INSTR_ADDR = 0x1410 # KK S88 MK1
         NB_KEYS = 88
+        OFFSET = -21
+    elif keyboard == "6":
+        MODE = "MK1"
+        INSTR_ADDR = 0x1350 # KK S49 MK1
+        NB_KEYS = 49
+        OFFSET = -21
+    elif keyboard == "7":
+        MODE = "MK1"
+        INSTR_ADDR = 0x1340 # KK S25 MK1
+        NB_KEYS = 25
         OFFSET = -21
     else:
         print ("Sorry, keyboard not supported yet!")
