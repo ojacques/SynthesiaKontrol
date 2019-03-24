@@ -7,7 +7,6 @@
 
 import hid
 import mido
-from msvcrt import getch
 
 def init():
     """Connect to the keyboard, switch all lights off"""
