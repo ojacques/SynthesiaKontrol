@@ -10,7 +10,7 @@ buildOptions = dict(
    
 setup(
     name = "SynthesiaKontrol",
-    version = "1.0",
+    version = "1.1",
     description = "Use Komplete Kontrol Keyboard lights in Synthesia",
     options = dict(build_exe = buildOptions),
     executables = executables
