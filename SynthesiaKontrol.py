@@ -8,6 +8,7 @@
 import hid
 import mido
 import time
+import sys
 
 NATIVE_INSTRUMENTS = 0x17cc
 INSTR_ADDR = 0x1620
@@ -21,7 +22,12 @@ def init():
 
     print("Opening Keyboard device...")
     device=hid.device()
-    device.open(NATIVE_INSTRUMENTS, INSTR_ADDR)
+    try:
+        device.open(NATIVE_INSTRUMENTS, INSTR_ADDR)
+    except Exception as e:
+        print("Error: " + str(e))
+        quit()
+
     device.write([0xa0])
     
     bufferC = [0x00] * 249
@@ -184,12 +190,12 @@ if __name__ == '__main__':
         MODE = "MK2"
         INSTR_ADDR = 0x1630 # KK S88 MK2
         NB_KEYS = 88
-        OFFSET = -61
+        OFFSET = -36
     elif keyboard == "3":
         MODE = "MK2"
         INSTR_ADDR = 0x1610 # KK S49 MK2
         NB_KEYS = 49
-        OFFSET = -61
+        OFFSET = -36
     elif keyboard == "4":
         MODE = "MK1"
         INSTR_ADDR = 0x1360 # KK S61 MK1
