@@ -1,5 +1,5 @@
 # Synthesia Kontrol Guide
-Use Native Instruments Komplete Kontrol mk2 light guide in Synthesia to learn keyboard.
+Use Native Instruments Komplete Kontrol MK1 and MK2 light guide in Synthesia to learn keyboard.
 
 [![Synthesia Kontrol](https://img.youtube.com/vi/R143-vSd6Eg/0.jpg)](https://www.youtube.com/watch?v=R143-vSd6Eg)
 
