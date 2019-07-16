@@ -17,7 +17,7 @@ and lights the keys on Komplete Kontrol keyboard accordingly.
   - Go to settings/Music Devices
   - Select "LoopBe Internal MIDI" from "Music Output"
   - In Keylight section of that output, select "Finger-based channel" (the last mode after 'channel 16')
-
+  
 ## SynthesiaKontrol
 
 ### Windows
@@ -33,6 +33,8 @@ Use the [Developer method](#developer).
 # Developer
 
 If you want to contribute to the project, you need to setup your Python environment.
+
+⚠ SynthesiaKontrol only works with Python3. One of the symptom when using Python2 is that you will get an error message saying that the keyboard is not supported yet.
 
 ## SynthesiaKontrol
 
