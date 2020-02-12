@@ -13,6 +13,8 @@ and lights the keys on Komplete Kontrol keyboard accordingly.
 ## Pre-requisites
 
 - Install [LoopBe1](http://www.nerds.de/en/download.html) virtual midi port driver.
+
+  💡 On Mac, you can use the built in "IAC Driver" - open "Audio midi setup" to create a device named "LoopBe" as [explained by D-One](https://www.youtube.com/watch?v=8fCx9_58kjU&t=220)
 - In [Synthesia](https://synthesiagame.com):
   - Go to settings/Music Devices
   - Select "LoopBe Internal MIDI" from "Music Output"
@@ -41,9 +43,7 @@ If you want to contribute to the project, you need to setup your Python environm
 - Install Python's module:
 
 ```
-pip install hidapi
-pip install mido
-pip install python-rtmidi
+pip install -r requirements.txt
 ```
 
 - Run the program: 
@@ -52,13 +52,14 @@ pip install python-rtmidi
 python SynthesiaKontrol.py
 ```
 
-- Build executable:
+- Build executable (Windows)
 
-```
-python setup.py build
-```
-
-Result is in build directory.
+  - Install cx_Freeze: `pip install cx_Freeze`
+  - Run build
+    ```
+    python setup.py build
+    ```
+  - Result is in build directory.
 
 # Status
 
