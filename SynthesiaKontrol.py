@@ -233,10 +233,10 @@ if __name__ == '__main__':
             if "LoopBe" in port:
                 portName = port
         if portName == "":
-            print("Error: can't find 'LoopBe' midi port. Please install LoopBe1 from http://www.nerds.de/en/download.html.")
-            quit(1)
+            print("Error: can't find 'LoopBe' midi port. Please install LoopBe1 from http://www.nerds.de/en/download.html (Windows) or name your IAC midi device 'LoopBe' (on Mac).")
+            exit(1)
 
-        print ("Listening to Midi")
+        print ("Listening to Midi on LoopBe midi port")
         with mido.open_input(portName) as midiPort:
             for message in accept_notes(midiPort):
                 print('Received {}'.format(message))
