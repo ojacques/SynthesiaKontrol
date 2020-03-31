@@ -43,21 +43,21 @@ If you want to contribute to the project, you need to setup your Python environm
 - Install Python's module:
 
 ```
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 - Run the program: 
 
 ```
-python SynthesiaKontrol.py
+python3 SynthesiaKontrol.py
 ```
 
 - Build executable (Windows)
 
-  - Install cx_Freeze: `pip install cx_Freeze`
+  - Install cx_Freeze: `pip3 install cx_Freeze`
   - Run build
     ```
-    python setup.py build
+    python3 setup.py build
     ```
   - Result is in build directory.
 
