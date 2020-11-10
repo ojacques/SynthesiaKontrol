@@ -190,7 +190,7 @@ if __name__ == '__main__':
         MODE = "MK2"
         INSTR_ADDR = 0x1630 # KK S88 MK2
         NB_KEYS = 88
-        OFFSET = -36
+        OFFSET = -21
     elif keyboard == "3":
         MODE = "MK2"
         INSTR_ADDR = 0x1610 # KK S49 MK2
