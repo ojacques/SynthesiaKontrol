@@ -210,7 +210,7 @@ if __name__ == '__main__':
         MODE = "MK1"
         INSTR_ADDR = 0x1350 # KK S49 MK1
         NB_KEYS = 49
-        OFFSET = -21
+        OFFSET = -36
     elif keyboard == "7":
         MODE = "MK1"
         INSTR_ADDR = 0x1340 # KK S25 MK1
