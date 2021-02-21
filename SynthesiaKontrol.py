@@ -1,6 +1,6 @@
 # The MIT License
 # 
-# Copyright (c) 2018, 2019 Olivier Jacques
+# Copyright (c) 2018-2021 Olivier Jacques
 # 
 # Synthesia Kontrol: an app to light the keys of Native Instruments
 #                    Komplete Kontrol MK2 keyboard, driven by Synthesia
@@ -169,7 +169,7 @@ def LightNote(note, status, channel, velocity):
 
 if __name__ == '__main__':
     """Main: connect to keyboard, open midi input port, listen to midi"""
-    print ("Select your keyboard (1,2,3,...):")
+    print ("Select your keyboard (1, 2, 3, ...) and press 'Enter':")
     print ("  1-Komplete Kontrol S61 MK2")
     print ("  2-Komplete Kontrol S88 MK2")
     print ("  3-Komplete Kontrol S49 MK2")
@@ -217,7 +217,7 @@ if __name__ == '__main__':
         NB_KEYS = 25
         OFFSET = -21
     else:
-        print ("Sorry, keyboard not supported yet!")
+        print ("Got '" + keyboard + "' - please type a number which corresponds to your keyboard, then Enter")
         quit()
     
     print ("Connecting to Komplete Kontrol Keyboard")
