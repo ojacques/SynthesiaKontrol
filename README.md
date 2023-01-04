@@ -15,6 +15,8 @@ and lights the keys on Komplete Kontrol keyboard accordingly.
 - Install [LoopBe1](http://www.nerds.de/en/download.html) virtual midi port driver.
 
   💡 On Mac, you can use the built in "IAC Driver" - open "Audio midi setup" to create a device named "LoopBe" as [explained by D-One](https://www.youtube.com/watch?v=8fCx9_58kjU&t=220)
+
+  **🆕New**: Since January 2023, check out [KompleteSynthesia](https://github.com/tillt/KompleteSynthesia): a MAC native project from [@tillt](https://github.com/tillt)
 - In [Synthesia](https://synthesiagame.com):
   - Go to settings/Music Devices
   - Select "LoopBe Internal MIDI" from "Music Output"
@@ -90,4 +92,4 @@ Kontrol MK1 USB protocol as well as the structure of an app
 - [Jason Bret](https://github.com/jasonbrent) to have figured out the MK2 version, and the `0x81` endpoint which I use.
 - [a1vv](https://github.com/a1vv/KompleteKontrolLightGuide) for the fork, and figuring out the changes for MK1 - which allowed me to create a version with support of MK1 and MK2
 - [Nabume](https://www.synthesiagame.com/forum/memberlist.php?mode=viewprofile&u=115379) for the S88 MK2 info.
-
+- [KompleteSynthesia](https://github.com/tillt/KompleteSynthesia): a MAC native project from @tillt
