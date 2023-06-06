@@ -1,19 +1,19 @@
 # The MIT License
-# 
+#
 # Copyright (c) 2018-2021 Olivier Jacques
-# 
+#
 # Synthesia Kontrol: an app to light the keys of Native Instruments
 #                    Komplete Kontrol MK2 keyboard, driven by Synthesia
 
+import time
 import hid
 import mido
-import time
-import sys
 
 NATIVE_INSTRUMENTS = 0x17cc
 INSTR_ADDR = 0x1620
 NB_KEYS = 61
 MODE = "MK2"
+
 
 def init():
     """Connect to the keyboard, switch all lights off"""
@@ -21,19 +21,22 @@ def init():
     global device
 
     print("Opening Keyboard device...")
-    device=hid.device()
+    device = hid.device()
     try:
         device.open(NATIVE_INSTRUMENTS, INSTR_ADDR)
     except Exception as e:
         print("Error: " + str(e))
         quit()
 
-    device.write([0xa0])
-    
+    # Write 3 bytes to the device: 0xa0, 0x00, 0x00
+    # Thanks to @xample for investigating this
+    device.write([0xa0, 0x00, 0x00])
+
     bufferC = [0x00] * 249
     notes_off()
 
     return True
+
 
 def notes_off():
     """Turn off lights for all notes"""
@@ -46,8 +49,9 @@ def notes_off():
     elif (MODE == "MK1"):
         device.write([0x82] + bufferC)
     else:
-        print ("Error: unsupported mode - should be MK1 or MK2")
+        print("Error: unsupported mode - should be MK1 or MK2")
         quit()
+
 
 def accept_notes(port):
     """Only let note_on and note_off messages through."""
@@ -56,16 +60,17 @@ def accept_notes(port):
             yield message
         if message.type == 'control_change' and message.channel == 0 and message.control == 16:
             if (message.value & 4):
-                print ("User is playing")
+                print("User is playing")
             if (message.value & 1):
-                print ("Playing Right Hand")
+                print("Playing Right Hand")
             if (message.value & 2):
-                print ("Playing Left Hand")
+                print("Playing Left Hand")
             notes_off()
+
 
 def CoolDemoSweep(loopcount):
     speed = 0.01
-    for loop in range(0,loopcount):
+    for loop in range(0, loopcount):
         # Forward
         for x in range(0, NB_KEYS-3):
             if (MODE == "MK2"):
@@ -97,30 +102,31 @@ def CoolDemoSweep(loopcount):
             device.write(bufferC)
             time.sleep(speed)
     notes_off()
-   
+
+
 def LightNote(note, status, channel, velocity):
     """Light a note ON or OFF"""
 
-    #bufferC[0] = 0x81    # For Komplete Kontrol MK2
+    # bufferC[0] = 0x81    # For Komplete Kontrol MK2
     offset = OFFSET
     key = (note + offset)
 
     if key < 0 or key >= NB_KEYS:
-        return  
+        return
 
     # Determine color
     if (MODE == "MK2"):
-        left        = 0x2d   # Blue
-        left_thumb  = 0x2f   # Lighter Blue
-        right       = 0x1d   # Green
+        left = 0x2d   # Blue
+        left_thumb = 0x2f   # Lighter Blue
+        right = 0x1d   # Green
         right_thumb = 0x1f   # Lighter Green
     elif (MODE == "MK1"):
-        left        = [0x00] + [0x00] + [0xFF]   # Blue
-        left_thumb  = [0x00] + [0x00] + [0x80]   # Lighter Blue
-        right       = [0x00] + [0xFF] + [0x00]   # Green
+        left = [0x00] + [0x00] + [0xFF]   # Blue
+        left_thumb = [0x00] + [0x00] + [0x80]   # Lighter Blue
+        right = [0x00] + [0xFF] + [0x00]   # Green
         right_thumb = [0x00] + [0x80] + [0x00]   # Lighter Green
     else:
-        print ("Error: unsupported mode - should be MK1 or MK2")
+        print("Error: unsupported mode - should be MK1 or MK2")
         quit()
 
     default = right
@@ -167,66 +173,68 @@ def LightNote(note, status, channel, velocity):
     else:
         device.write([0x82] + bufferC)
 
+
 if __name__ == '__main__':
     """Main: connect to keyboard, open midi input port, listen to midi"""
-    print ("Select your keyboard (1, 2, 3, ...) and press 'Enter':")
-    print ("  1-Komplete Kontrol S61 MK2")
-    print ("  2-Komplete Kontrol S88 MK2")
-    print ("  3-Komplete Kontrol S49 MK2")
-    print ("  4-Komplete Kontrol S61 MK1")
-    print ("  5-Komplete Kontrol S88 MK1")
-    print ("  6-Komplete Kontrol S49 MK1")
-    print ("  7-Komplete Kontrol S25 MK1")
+    print("Select your keyboard (1, 2, 3, ...) and press 'Enter':")
+    print("  1-Komplete Kontrol S61 MK2")
+    print("  2-Komplete Kontrol S88 MK2")
+    print("  3-Komplete Kontrol S49 MK2")
+    print("  4-Komplete Kontrol S61 MK1")
+    print("  5-Komplete Kontrol S88 MK1")
+    print("  6-Komplete Kontrol S49 MK1")
+    print("  7-Komplete Kontrol S25 MK1")
     keyboard = input()
-    
+
     # Customize here for new keyboards
     # Pull requests welcome!
     if keyboard == "1":
         MODE = "MK2"
-        INSTR_ADDR = 0x1620 # KK S61 MK2
+        INSTR_ADDR = 0x1620  # KK S61 MK2
         NB_KEYS = 61
         OFFSET = -36
     elif keyboard == "2":
         MODE = "MK2"
-        INSTR_ADDR = 0x1630 # KK S88 MK2
+        INSTR_ADDR = 0x1630  # KK S88 MK2
         NB_KEYS = 88
         OFFSET = -21
     elif keyboard == "3":
         MODE = "MK2"
-        INSTR_ADDR = 0x1610 # KK S49 MK2
+        INSTR_ADDR = 0x1610  # KK S49 MK2
         NB_KEYS = 49
         OFFSET = -36
     elif keyboard == "4":
         MODE = "MK1"
-        INSTR_ADDR = 0x1360 # KK S61 MK1
+        INSTR_ADDR = 0x1360  # KK S61 MK1
         NB_KEYS = 61
         OFFSET = -36
     elif keyboard == "5":
         MODE = "MK1"
-        INSTR_ADDR = 0x1410 # KK S88 MK1
+        INSTR_ADDR = 0x1410  # KK S88 MK1
         NB_KEYS = 88
         OFFSET = -21
     elif keyboard == "6":
         MODE = "MK1"
-        INSTR_ADDR = 0x1350 # KK S49 MK1
+        INSTR_ADDR = 0x1350  # KK S49 MK1
         NB_KEYS = 49
         OFFSET = -36
     elif keyboard == "7":
         MODE = "MK1"
-        INSTR_ADDR = 0x1340 # KK S25 MK1
+        INSTR_ADDR = 0x1340  # KK S25 MK1
         NB_KEYS = 25
         OFFSET = -21
     else:
-        print ("Got '" + keyboard + "' - please type a number which corresponds to your keyboard, then Enter")
+        print("Got '" + keyboard +
+              "' - please type a number which corresponds to your keyboard, then Enter")
         quit()
-    
-    print ("Connecting to Komplete Kontrol Keyboard")
+
+    print("Connecting to Komplete Kontrol Keyboard")
     connected = init()
     portName = ""
     if connected:
         print("Connected to Komplete Kontrol!")
         CoolDemoSweep(2)    # Happy dance
-        print ("Opening LoopBe input port")
+        print("Opening LoopBe input port")
         ports = mido.get_input_names()
         for port in ports:
             print("  Found MIDI port " + port + "...")
@@ -236,8 +244,9 @@ if __name__ == '__main__':
             print("Error: can't find 'LoopBe' midi port. Please install LoopBe1 from http://www.nerds.de/en/download.html (Windows) or name your IAC midi device 'LoopBe' (on Mac).")
             exit(1)
 
-        print ("Listening to Midi on LoopBe midi port")
+        print("Listening to Midi on LoopBe midi port")
         with mido.open_input(portName) as midiPort:
             for message in accept_notes(midiPort):
                 print('Received {}'.format(message))
-                LightNote(message.note, message.type, message.channel, message.velocity)
+                LightNote(message.note, message.type,
+                          message.channel, message.velocity)
