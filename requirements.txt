@@ -1,3 +1,4 @@
 hidapi
 mido
 python-rtmidi
+cx_Freeze
