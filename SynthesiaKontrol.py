@@ -5,6 +5,7 @@
 # Synthesia Kontrol: an app to light the keys of Native Instruments
 #                    Komplete Kontrol MK2 keyboard, driven by Synthesia
 
+import sys
 import time
 import hid
 import mido
@@ -26,7 +27,7 @@ def init():
         device.open(NATIVE_INSTRUMENTS, INSTR_ADDR)
     except Exception as e:
         print("Error: " + str(e))
-        quit()
+        sys.exit(1)
 
     # Write 3 bytes to the device: 0xa0, 0x00, 0x00
     # Thanks to @xample for investigating this
@@ -50,7 +51,7 @@ def notes_off():
         device.write([0x82] + bufferC)
     else:
         print("Error: unsupported mode - should be MK1 or MK2")
-        quit()
+        sys.exit(1)
 
 
 def accept_notes(port):
@@ -127,7 +128,7 @@ def LightNote(note, status, channel, velocity):
         right_thumb = [0x00] + [0x80] + [0x00]   # Lighter Green
     else:
         print("Error: unsupported mode - should be MK1 or MK2")
-        quit()
+        sys.exit(1)
 
     default = right
     color = default
@@ -226,7 +227,7 @@ if __name__ == '__main__':
     else:
         print("Got '" + keyboard +
               "' - please type a number which corresponds to your keyboard, then Enter")
-        quit()
+        sys.exit(1)
 
     print("Connecting to Komplete Kontrol Keyboard")
     connected = init()
@@ -242,7 +243,7 @@ if __name__ == '__main__':
                 portName = port
         if portName == "":
             print("Error: can't find 'LoopBe' midi port. Please install LoopBe1 from http://www.nerds.de/en/download.html (Windows) or name your IAC midi device 'LoopBe' (on Mac).")
-            exit(1)
+            sys.exit(1)
 
         print("Listening to Midi on LoopBe midi port")
         with mido.open_input(portName) as midiPort:
