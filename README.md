@@ -8,6 +8,13 @@ This is a project for my son, which you may find useful.
 This program listens to light events from Synthesia sent to a virtual `LoopBe1` midi port
 and lights the keys on Komplete Kontrol keyboard accordingly.
 
+On start it now:
+
+- Auto-detects a connected Komplete Kontrol over USB HID (or asks you to pick if several are plugged in, or none were found)
+- Shows a status panel for **Synthesia**, the **LoopBe** MIDI port, and the **keyboard**
+- Logs left / right-hand notes while you play
+- Turns the light guide off when Synthesia closes, or when you quit with `Ctrl+C`
+
 # Install
 
 ## Pre-requisites
@@ -54,6 +61,8 @@ pip3 install -r requirements.txt
 python3 SynthesiaKontrol.py
 ```
 
+  On Windows you can also double-click `Run-SynthesiaKontrol.bat` (uses `py -3` or `python` from `PATH`).
+
 - Build executable (Windows)
 
   - Install cx_Freeze: `pip3 install cx_Freeze`
@@ -77,6 +86,8 @@ python3 SynthesiaKontrol.py
 - [X] Simpler / better instructions
 - [X] Support all Komplete Kontrol MK2 keyboard sizes (currently only S61)
 - [X] Support Komplete Kontrol MK1 keyboards
+- [X] Auto-detect the connected keyboard over USB
+- [X] Startup status checks (Synthesia / LoopBe / keyboard) and a cleaner console
 - [ ] Use different colors per channel
 
 # Getting help
