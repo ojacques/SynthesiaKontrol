@@ -5,6 +5,7 @@
 # Synthesia Kontrol: an app to light the keys of Native Instruments
 #                    Komplete Kontrol MK2 keyboard, driven by Synthesia
 
+import argparse
 import os
 import sys
 import time
@@ -324,12 +325,26 @@ def LightNote(note, status, channel, velocity):
 # ---------------------------------------------------------------------------
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        description="SynthesiaKontrol — Komplete Kontrol light guide bridge"
+    )
+    parser.add_argument(
+        "--transpose", "-t", type=int, default=0,
+        help="Shift the light guide by N semitones (e.g., --transpose 12 for +1 octave)"
+    )
+    args = parser.parse_args()
+
     print("SynthesiaKontrol — Komplete Kontrol light guide bridge")
     print()
 
     # Select keyboard (auto-detect or manual)
     if not select_keyboard():
         sys.exit(1)
+
+    # Apply transpose offset
+    if args.transpose != 0:
+        OFFSET += args.transpose
+        print(f"  Transpose: {args.transpose:+d} semitones (OFFSET = {OFFSET})")
 
     # Show status
     loopbe_port = print_status()
