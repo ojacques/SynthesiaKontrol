@@ -33,7 +33,7 @@ def init():
     # Thanks to @xample for investigating this
     device.write([0xa0, 0x00, 0x00])
 
-    bufferC = [0x00] * 249
+    bufferC = [0x00] * (3 * NB_KEYS if MODE == "MK1" else NB_KEYS)
     notes_off()
 
     return True
@@ -41,10 +41,11 @@ def init():
 
 def notes_off():
     """Turn off lights for all notes"""
+    global bufferC
 
     print("Turn off lights for all notes")
 
-    bufferC = [0x00] * 249
+    bufferC = [0x00] * (3 * NB_KEYS if MODE == "MK1" else NB_KEYS)
     if (MODE == "MK2"):
         device.write([0x81] + bufferC)
     elif (MODE == "MK1"):
