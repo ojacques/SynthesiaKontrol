@@ -28,7 +28,7 @@ KEYBOARDS = {
     0x1360: {"name": "Komplete Kontrol S61 MK1", "mode": "MK1", "keys": 61, "offset": -36, "menu": "4"},
     0x1410: {"name": "Komplete Kontrol S88 MK1", "mode": "MK1", "keys": 88, "offset": -21, "menu": "5"},
     0x1350: {"name": "Komplete Kontrol S49 MK1", "mode": "MK1", "keys": 49, "offset": -36, "menu": "6"},
-    0x1340: {"name": "Komplete Kontrol S25 MK1", "mode": "MK1", "keys": 25, "offset": -21, "menu": "7"},
+    0x1340: {"name": "Komplete Kontrol S25 MK1", "mode": "MK1", "keys": 25, "offset": -48, "menu": "7"},
 }
 
 MENU_TO_PID = {cfg["menu"]: pid for pid, cfg in KEYBOARDS.items()}
