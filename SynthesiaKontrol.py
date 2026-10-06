@@ -280,10 +280,18 @@ def LightNote(note, status, channel, velocity):
         right = 0x1d       # Green
         right_thumb = 0x1f # Lighter Green
     elif MODE == "MK1":
-        left = [0x00, 0x00, 0xFF]        # Blue
-        left_thumb = [0x00, 0x00, 0x80]  # Lighter Blue
-        right = [0x00, 0xFF, 0x00]       # Green
-        right_thumb = [0x00, 0x80, 0x00] # Lighter Green
+        left = [0] * 5
+        left [4] = [0x03, 0x03, 0x7F] # Blue
+        left [3] = [0x0A, 0x0A, 0x7F] # .
+        left [2] = [0x11, 0x11, 0x7F] # .
+        left [1] = [0x18, 0x18, 0x7F] # .
+        left [0] = [0x1F, 0x1F, 0x7F] # Lighter Blue
+        right = [0] * 5
+        right[0] = [0x1F, 0x7F, 0x17] # Lighter Green
+        right[1] = [0x18, 0x7F, 0x12] # .
+        right[2] = [0x11, 0x7F, 0x0D] # .
+        right[3] = [0x0A, 0x7F, 0x08] # .
+        right[4] = [0x03, 0x7F, 0x03] # Green
     else:
         print("Error: unsupported mode - should be MK1 or MK2")
         sys.exit(1)
@@ -292,16 +300,32 @@ def LightNote(note, status, channel, velocity):
 
     # Finger-based channel protocol from Synthesia
     # Reference: https://www.synthesiagame.com/forum/viewtopic.php?p=43585#p43585
+    # https://web.archive.org/web/20210803011834/https://www.synthesiagame.com/forum/viewtopic.php?p=43585#p43585
     if channel == 0:
-        color = right
+        if MODE == "MK2":
+            color = right
+        else:
+            color = right[4]
     elif 1 <= channel <= 5:
-        color = left_thumb if channel == 1 else left
+        if MODE == "MK2":
+            color = left_thumb if channel == 1 else left
+        else:
+            color = left[channel - 1]
     elif 6 <= channel <= 10:
-        color = right_thumb if channel == 6 else right
+        if MODE == "MK2":
+            color = right_thumb if channel == 6 else right
+        else:
+            color = right[channel - 6]
     elif channel == 11:
-        color = left
+        if MODE == "MK2":
+            color = left
+        else:
+            color = left[4]
     elif channel == 12:
-        color = right
+        if MODE == "MK2":
+            color = right
+        else:
+            color = right[4]
 
     if status == 'note_on' and velocity != 0:
         if MODE == "MK2":
